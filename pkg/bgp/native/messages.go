@@ -11,7 +11,7 @@ import (
 	"net"
 	"time"
 
-	"go.universe.tf/metallb/internal/bgp"
+	"go.universe.tf/metallb/pkg/bgp"
 )
 
 func sendOpen(w io.Writer, asn uint32, routerID net.IP, holdTime time.Duration) error {
