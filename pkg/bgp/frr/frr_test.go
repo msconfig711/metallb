@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"go.universe.tf/metallb/internal/bgp"
+	"go.universe.tf/metallb/pkg/bgp"
 )
 
 const testData = "testdata/"
