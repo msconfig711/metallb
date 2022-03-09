@@ -58,10 +58,35 @@ router bgp {{.MyASN}}
     neighbor {{$n.Addr}} activate
   exit-address-family
 {{- end}}
+ 
 {{- range .Advertisements }}
+  {{- if ne {{.Prepend}} 0 }}
+    access-list ip-match permit {{.Prefix}}
+    route-map set-as-path permit 10
+      match ip address 1
+      {{- if eq {{.Prepend}} 1 }}
+		set as-path prepend {{.MyASN}}
+      {{- end}}
+      {{- if eq {{.Prepend}} 2 }}
+		set as-path prepend {{.MyASN}} {{.MyASN}}
+      {{- end}}
+      {{- if eq {{.Prepend}} 3 }}
+		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}}
+      {{- end}}
+      {{- if eq {{.Prepend}} 4 }}
+		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}}
+      {{- end}}
+      {{- if ge {{.Prepend}} 5 }}
+		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}}
+      {{- end}}
+    route-map set-as-path permit 20
+  {{- if ne {{.Prepend}} 0 }}
   address-family {{.Version}} unicast
     neighbor {{$n.Addr}} activate
     network {{.Prefix}}
+    {{- if ne {{.Prepend}} 0 }}
+	  neighbor {{$n.Addr}} route-map set-as-path out
+    {{- end }}
   exit-address-family
 {{- end}}
 {{end}}
@@ -94,6 +119,7 @@ type neighborConfig struct {
 type advertisementConfig struct {
 	Version string
 	Prefix  string
+	Prepend uint32
 }
 
 // routerName() defines the format of the key of the "Routers" map in the
