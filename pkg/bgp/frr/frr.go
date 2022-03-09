@@ -230,6 +230,7 @@ func (sm *sessionManager) createConfig() (*frrConfig, error) {
 			advConfig := advertisementConfig{
 				Version: version,
 				Prefix:  adv.Prefix.String(),
+				Prepend: adv.Prepend,
 			}
 
 			neighbor.Advertisements = append(neighbor.Advertisements, &advConfig)
