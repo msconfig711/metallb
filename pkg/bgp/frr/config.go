@@ -26,8 +26,7 @@ const configTemplate = `
 log file /etc/frr/frr.log {{.Loglevel}}
 log timestamp precision 3
 hostname {{.Hostname}}
-
-{{range .Routers -}}
+{{range $r := .Routers -}}
 router bgp {{.MyASN}}
   no bgp ebgp-requires-policy
   no bgp network import-check
@@ -49,7 +48,6 @@ router bgp {{.MyASN}}
   {{- end }}
 {{- end }}
 {{range $n := .Neighbors -}}
-{{/* no bgp default ipv4-unicast prevents peering if no address families are defined. We declare an ipv4 one for the peer to make the pairing happen */}}
 {{- if eq (len .Advertisements) 0}}
   address-family ipv4 unicast
     neighbor {{$n.Addr}} activate
@@ -59,34 +57,22 @@ router bgp {{.MyASN}}
   exit-address-family
 {{- end}}
  
-{{- range .Advertisements }}
-  {{- if ne {{.Prepend}} 0 }}
-    access-list ip-match permit {{.Prefix}}
-    route-map set-as-path permit 10
-      match ip address 1
-      {{- if eq {{.Prepend}} 1 }}
-		set as-path prepend {{.MyASN}}
-      {{- end}}
-      {{- if eq {{.Prepend}} 2 }}
-		set as-path prepend {{.MyASN}} {{.MyASN}}
-      {{- end}}
-      {{- if eq {{.Prepend}} 3 }}
-		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}}
-      {{- end}}
-      {{- if eq {{.Prepend}} 4 }}
-		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}}
-      {{- end}}
-      {{- if ge {{.Prepend}} 5 }}
-		set as-path prepend {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}} {{.MyASN}}
-      {{- end}}
-    route-map set-as-path permit 20
-  {{- if ne {{.Prepend}} 0 }}
+{{- range $index,$a := .Advertisements}}
+  {{- if ne .Prepend 0}}
+  access-list ip-match-{{$index}} permit {{.Prefix}}
+  route-map set-as-path permit 10
+    match ip address ip-match-{{$index}}
+    {{- $val := Iterate .Prepend $r.MyASN }}
+    set as-path prepend {{- $val}}
+  route-map set-as-path permit 20
+  {{- end}}
+
   address-family {{.Version}} unicast
     neighbor {{$n.Addr}} activate
     network {{.Prefix}}
-    {{- if ne {{.Prepend}} 0 }}
-	  neighbor {{$n.Addr}} route-map set-as-path out
-    {{- end }}
+    {{- if ne .Prepend 0}}
+    neighbor {{$n.Addr}} route-map set-as-path out
+    {{- end}}
   exit-address-family
 {{- end}}
 {{end}}
@@ -137,7 +123,17 @@ func neighborName(peerAddr string, ASN uint32) string {
 // templateConfig uses the template library to template
 // 'globalConfigTemplate' using 'data'.
 func templateConfig(data interface{}) (string, error) {
-	t, err := template.New("FRR Config Template").Parse(configTemplate)
+	fm := template.FuncMap{
+		"Iterate": func(count, as uint32) string {
+			var i uint32
+			var Items string
+			for i = 0; i < (count); i++ {
+				Items = fmt.Sprintf("%s %d", Items, as)
+			}
+			return Items
+		},
+	}
+	t, err := template.New("FRR Config Template").Funcs(fm).Parse(configTemplate)
 	if err != nil {
 		return "", err
 	}

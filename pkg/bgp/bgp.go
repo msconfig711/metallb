@@ -37,6 +37,9 @@ func (a *Advertisement) Equal(b *Advertisement) bool {
 	if a.LocalPref != b.LocalPref {
 		return false
 	}
+	if a.Prepend != b.Prepend {
+		return false
+	}
 	return reflect.DeepEqual(a.Communities, b.Communities)
 }
 
