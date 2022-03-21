@@ -9,8 +9,8 @@ import (
 	"github.com/go-kit/kit/log/level"
 	"github.com/prometheus/client_golang/prometheus"
 
-	bgpfrr "go.universe.tf/metallb/internal/bgp/frr"
-	bgpstats "go.universe.tf/metallb/internal/bgp/native"
+	bgpfrr "go.universe.tf/metallb/pkg/bgp/frr"
+	bgpstats "go.universe.tf/metallb/pkg/bgp/native"
 )
 
 var (

@@ -14,10 +14,10 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/log/level"
-	"go.universe.tf/metallb/internal/bgp"
-	metallbconfig "go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/ipfamily"
-	"go.universe.tf/metallb/internal/logging"
+	"go.universe.tf/metallb/pkg/bgp"
+	metallbconfig "go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/ipfamily"
+	"go.universe.tf/metallb/pkg/logging"
 )
 
 // As the MetalLB controller should handle messages synchronously, there should

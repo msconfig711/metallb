@@ -9,7 +9,7 @@ import (
 
 	"github.com/mikioh/ipaddr"
 	"github.com/pkg/errors"
-	internalconfig "go.universe.tf/metallb/internal/config"
+	internalconfig "go.universe.tf/metallb/pkg/config"
 	"k8s.io/kubernetes/test/e2e/framework"
 )
 

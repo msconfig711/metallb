@@ -3,7 +3,7 @@
 package k8salloc
 
 import (
-	"go.universe.tf/metallb/internal/allocator"
+	"go.universe.tf/metallb/pkg/allocator"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 )

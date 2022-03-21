@@ -16,8 +16,8 @@ import (
 	"github.com/prometheus/exporter-toolkit/web"
 
 	"go.universe.tf/metallb/frr-metrics/collector"
-	"go.universe.tf/metallb/internal/logging"
-	"go.universe.tf/metallb/internal/version"
+	"go.universe.tf/metallb/pkg/logging"
+	"go.universe.tf/metallb/pkg/version"
 )
 
 var (

@@ -6,9 +6,9 @@ import (
 	"sync"
 
 	"github.com/go-kit/kit/log"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/k8s/controllers"
-	"go.universe.tf/metallb/internal/k8s/epslices"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/k8s/controllers"
+	"go.universe.tf/metallb/pkg/k8s/epslices"
 	v1 "k8s.io/api/core/v1"
 )
 

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier:Apache-2.0
 
-package bgp // import "go.universe.tf/metallb/internal/bgp"
+package bgp // import "go.universe.tf/metallb/pkg/bgp"
 
 import (
 	"io"
@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"go.universe.tf/metallb/internal/config"
+	"go.universe.tf/metallb/pkg/config"
 )
 
 // Advertisement represents one network path and its BGP attributes.

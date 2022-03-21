@@ -14,9 +14,9 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"go.universe.tf/metallb/internal/bgp"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/logging"
+	"go.universe.tf/metallb/pkg/bgp"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/logging"
 	"k8s.io/apimachinery/pkg/util/wait"
 )
 

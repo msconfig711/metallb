@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"go.universe.tf/metallb/internal/bgp"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/k8s/controllers"
-	"go.universe.tf/metallb/internal/k8s/epslices"
-	"go.universe.tf/metallb/internal/logging"
+	"go.universe.tf/metallb/pkg/bgp"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/k8s/controllers"
+	"go.universe.tf/metallb/pkg/k8s/epslices"
+	"go.universe.tf/metallb/pkg/logging"
 
 	"github.com/go-kit/kit/log"
 	"github.com/google/go-cmp/cmp"

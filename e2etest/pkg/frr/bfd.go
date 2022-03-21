@@ -5,7 +5,7 @@ package frr
 import (
 	"github.com/pkg/errors"
 	"go.universe.tf/metallb/e2etest/pkg/executor"
-	bgpfrr "go.universe.tf/metallb/internal/bgp/frr"
+	bgpfrr "go.universe.tf/metallb/pkg/bgp/frr"
 )
 
 // BFDPeers returns informations for the all the bfd peers in the given

@@ -15,7 +15,7 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/ipfamily"
 )
 
 var configFileName = "/etc/frr_reloader/frr.conf"

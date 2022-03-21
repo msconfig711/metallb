@@ -5,7 +5,7 @@ package controllers
 import (
 	"context"
 
-	"go.universe.tf/metallb/internal/k8s/epslices"
+	"go.universe.tf/metallb/pkg/k8s/epslices"
 	v1 "k8s.io/api/core/v1"
 	discovery "k8s.io/api/discovery/v1beta1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"

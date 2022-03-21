@@ -5,7 +5,7 @@ package k8s
 import (
 	"net"
 
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/ipfamily"
 	v1 "k8s.io/api/core/v1"
 )
 

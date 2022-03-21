@@ -1,6 +1,6 @@
 // SPDX-License-Identifier:Apache-2.0
 
-package allocator // import "go.universe.tf/metallb/internal/allocator"
+package allocator // import "go.universe.tf/metallb/pkg/allocator"
 
 import (
 	"errors"
@@ -9,8 +9,8 @@ import (
 	"net"
 	"strings"
 
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/ipfamily"
 
 	"github.com/mikioh/ipaddr"
 )

@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/logging"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/logging"
 )
 
 func TestBFDProfileNoSessions(t *testing.T) {
