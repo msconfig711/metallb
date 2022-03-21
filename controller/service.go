@@ -26,9 +26,9 @@ import (
 	"github.com/go-kit/kit/log/level"
 	v1 "k8s.io/api/core/v1"
 
-	"go.universe.tf/metallb/internal/allocator"
-	"go.universe.tf/metallb/internal/allocator/k8salloc"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/allocator"
+	"go.universe.tf/metallb/pkg/allocator/k8salloc"
+	"go.universe.tf/metallb/pkg/ipfamily"
 )
 
 const (

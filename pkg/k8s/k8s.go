@@ -1,6 +1,6 @@
 // SPDX-License-Identifier:Apache-2.0
 
-package k8s // import "go.universe.tf/metallb/internal/k8s"
+package k8s // import "go.universe.tf/metallb/pkg/k8s"
 
 import (
 	"context"
@@ -18,9 +18,9 @@ import (
 
 	metallbv1alpha1 "go.universe.tf/metallb/api/v1alpha1"
 	metallbv1beta1 "go.universe.tf/metallb/api/v1beta1"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/k8s/controllers"
-	"go.universe.tf/metallb/internal/k8s/epslices"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/k8s/controllers"
+	"go.universe.tf/metallb/pkg/k8s/epslices"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 
 	"github.com/go-kit/kit/log"

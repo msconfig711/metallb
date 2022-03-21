@@ -18,7 +18,7 @@ import (
 	"sync"
 	"time"
 
-	"go.universe.tf/metallb/internal/k8s"
+	"go.universe.tf/metallb/pkg/k8s"
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"

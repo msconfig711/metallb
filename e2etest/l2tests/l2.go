@@ -38,7 +38,7 @@ import (
 	"go.universe.tf/metallb/e2etest/pkg/service"
 	testservice "go.universe.tf/metallb/e2etest/pkg/service"
 	"go.universe.tf/metallb/e2etest/pkg/wget"
-	internalconfig "go.universe.tf/metallb/internal/config"
+	internalconfig "go.universe.tf/metallb/pkg/config"
 	corev1 "k8s.io/api/core/v1"
 	pkgerr "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"

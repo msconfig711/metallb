@@ -21,12 +21,12 @@ import (
 	"sort"
 	"strconv"
 
-	"go.universe.tf/metallb/internal/bgp"
-	bgpfrr "go.universe.tf/metallb/internal/bgp/frr"
-	bgpnative "go.universe.tf/metallb/internal/bgp/native"
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/k8s/epslices"
-	"go.universe.tf/metallb/internal/logging"
+	"go.universe.tf/metallb/pkg/bgp"
+	bgpfrr "go.universe.tf/metallb/pkg/bgp/frr"
+	bgpnative "go.universe.tf/metallb/pkg/bgp/native"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/k8s/epslices"
+	"go.universe.tf/metallb/pkg/logging"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/labels"
 

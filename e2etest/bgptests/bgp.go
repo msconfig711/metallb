@@ -38,7 +38,7 @@ import (
 	frrconfig "go.universe.tf/metallb/e2etest/pkg/frr/config"
 	frrcontainer "go.universe.tf/metallb/e2etest/pkg/frr/container"
 	testservice "go.universe.tf/metallb/e2etest/pkg/service"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/ipfamily"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	clientset "k8s.io/client-go/kubernetes"

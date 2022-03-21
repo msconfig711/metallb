@@ -9,8 +9,8 @@ import (
 	"github.com/pkg/errors"
 	"go.universe.tf/metallb/e2etest/pkg/executor"
 
-	bgpfrr "go.universe.tf/metallb/internal/bgp/frr"
-	"go.universe.tf/metallb/internal/ipfamily"
+	bgpfrr "go.universe.tf/metallb/pkg/bgp/frr"
+	"go.universe.tf/metallb/pkg/ipfamily"
 )
 
 // TODO: Leaving this package "test unaware" on purpose, since we may find it

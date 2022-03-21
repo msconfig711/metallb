@@ -20,8 +20,8 @@ import (
 
 	"github.com/go-kit/kit/log"
 	"github.com/go-kit/kit/log/level"
-	"go.universe.tf/metallb/internal/bgp"
-	"go.universe.tf/metallb/internal/config"
+	"go.universe.tf/metallb/pkg/bgp"
+	"go.universe.tf/metallb/pkg/config"
 	"golang.org/x/sys/unix"
 )
 

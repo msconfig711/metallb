@@ -8,7 +8,7 @@ import (
 
 	"go.universe.tf/metallb/e2etest/pkg/config"
 	frrcontainer "go.universe.tf/metallb/e2etest/pkg/frr/container"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/ipfamily"
 )
 
 const (

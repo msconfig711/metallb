@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"go.universe.tf/metallb/internal/config"
-	"go.universe.tf/metallb/internal/ipfamily"
+	"go.universe.tf/metallb/pkg/config"
+	"go.universe.tf/metallb/pkg/ipfamily"
 
 	ptu "github.com/prometheus/client_golang/prometheus/testutil"
 )

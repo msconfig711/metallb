@@ -35,7 +35,7 @@ import (
 	testsconfig "go.universe.tf/metallb/e2etest/pkg/config"
 	"go.universe.tf/metallb/e2etest/pkg/metallb"
 	"go.universe.tf/metallb/e2etest/pkg/service"
-	internalconfig "go.universe.tf/metallb/internal/config"
+	internalconfig "go.universe.tf/metallb/pkg/config"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/klog"
 	"k8s.io/kubernetes/test/e2e/framework"
