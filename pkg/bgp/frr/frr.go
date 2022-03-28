@@ -205,6 +205,8 @@ func (sm *sessionManager) createConfig() (*frrConfig, error) {
 		PrefixesV6ForCommunity: make([]communityPrefixes, 0),
 		PrefixesV4ForLocalPref: make([]localPrefPrefixes, 0),
 		PrefixesV6ForLocalPref: make([]localPrefPrefixes, 0),
+		PrefixesV4ForPrepend:   make([]prependPrefixes, 0),
+		PrefixesV6ForPrepend:   make([]prependPrefixes, 0),
 	}
 
 	// leave it for backward compatibility
@@ -217,6 +219,8 @@ func (sm *sessionManager) createConfig() (*frrConfig, error) {
 	prefixesV6ForCommunity := map[string]stringSet{}
 	prefixesV4ForLocalPref := map[uint32]stringSet{}
 	prefixesV6ForLocalPref := map[uint32]stringSet{}
+	prefixesV4ForPrepend := map[uint32]stringSet{}
+	prefixesV6ForPrepend := map[uint32]stringSet{}
 
 	for _, s := range sm.sessions {
 		var router *routerConfig
@@ -282,9 +286,13 @@ func (sm *sessionManager) createConfig() (*frrConfig, error) {
 				Prefix:      adv.Prefix.String(),
 				Communities: communities,
 				LocalPref:   adv.LocalPref,
+				Prepend:     adv.Prepend,
 			}
 			if adv.LocalPref != 0 {
 				addPrefixForLocalPref(prefixesV4ForLocalPref, prefixesV6ForLocalPref, adv.Prefix.String(), family, adv.LocalPref)
+			}
+			if adv.Prepend != 0 {
+				addPrefixForLocalPref(prefixesV4ForPrepend, prefixesV6ForPrepend, adv.Prefix.String(), family, adv.Prepend)
 			}
 
 			neighbor.Advertisements = append(neighbor.Advertisements, &advConfig)
@@ -296,6 +304,8 @@ func (sm *sessionManager) createConfig() (*frrConfig, error) {
 	config.PrefixesV6ForCommunity = mapToCommunityPrefixes(prefixesV6ForCommunity)
 	config.PrefixesV4ForLocalPref = mapToLocalPrefPrefixes(prefixesV4ForLocalPref)
 	config.PrefixesV6ForLocalPref = mapToLocalPrefPrefixes(prefixesV6ForLocalPref)
+	config.PrefixesV4ForPrepend = mapToPrependPrefixes(prefixesV4ForPrepend)
+	config.PrefixesV6ForPrepend = mapToPrependPrefixes(prefixesV6ForPrepend)
 
 	return config, nil
 }
@@ -352,6 +362,18 @@ func mapToCommunityPrefixes(m map[string]stringSet) []communityPrefixes {
 	}
 	sort.Slice(res, func(i int, j int) bool {
 		return res[i].Community < res[j].Community
+	})
+	return res
+}
+
+func mapToPrependPrefixes(m map[uint32]stringSet) []prependPrefixes {
+	res := make([]prependPrefixes, 0)
+
+	for k, v := range m {
+		res = append(res, prependPrefixes{Prepend: k, Prefixes: v.Elements()})
+	}
+	sort.Slice(res, func(i int, j int) bool {
+		return res[i].Prepend < res[j].Prepend
 	})
 	return res
 }

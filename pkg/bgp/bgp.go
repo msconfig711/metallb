@@ -21,6 +21,8 @@ type Advertisement struct {
 	LocalPref uint32
 	// BGP communities to attach to the path.
 	Communities []uint32
+	// The as-path of this route, prepend is the number of local asn appended.
+	Prepend uint32
 }
 
 // Equal returns true if a and b are equivalent advertisements.
@@ -29,6 +31,9 @@ func (a *Advertisement) Equal(b *Advertisement) bool {
 		return false
 	}
 	if a.LocalPref != b.LocalPref {
+		return false
+	}
+	if a.Prepend != b.Prepend {
 		return false
 	}
 	return reflect.DeepEqual(a.Communities, b.Communities)

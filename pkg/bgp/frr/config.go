@@ -70,7 +70,17 @@ ip prefix-list {{$pl.LocalPreference}}-v4localpref-prefixes permit {{$p}}
 ip prefix-list {{$pl.LocalPreference}}-v6localpref-prefixes permit {{$p}}
 {{- end}}
 {{- end}}
-{{- range .Routers }}
+{{- range $pl := .PrefixesV4ForPrepend }}
+{{- range $p := $pl.Prefixes }}
+ip prefix-list {{$pl.Prepend}}-v4prepend-prefixes permit {{$p}}
+{{- end}}
+{{- end}}
+{{- range $pl := .PrefixesV6ForPrepend }}
+{{- range $p := $pl.Prefixes }}
+ip prefix-list {{$pl.Prepend}}-v6prepend-prefixes permit {{$p}}
+{{- end}}
+{{- end}}
+{{- range $rt := .Routers }}
 {{- range $n := .Neighbors }}
 route-map {{$n.Addr}}-in deny 20
 {{/* NOTE: it's possible to have global routes only because all the neighbors
@@ -97,6 +107,18 @@ route-map {{$n.Addr}}-out permit {{ counter $n.Addr }}
 route-map {{$n.Addr}}-out permit {{ counter $n.Addr }}
   match ipv6 address prefix-list {{.Community}}-v6prefixes
   set community {{.Community}} additive
+  on-match next
+{{- end }}
+{{- range $.PrefixesV4ForPrepend }}
+route-map {{$n.Addr}}-out permit {{ counter $n.Addr }}
+  match ip address prefix-list {{.Prepend}}-v4prepend-prefixes
+  set as-path prepend {{ attach .Prepend $rt.MyASN }}
+  on-match next
+{{- end }}
+{{- range $.PrefixesV6ForPrepend }}
+route-map {{$n.Addr}}-out permit {{ counter $n.Addr }}
+  match ipv6 address prefix-list {{.Prepend}}-v6prepend-prefixes
+  set as-path prepend {{ attach .Prepend $rt.MyASN }}
   on-match next
 {{- end }}
 route-map {{$n.Addr}}-out permit {{ counter $n.Addr }}
@@ -147,7 +169,7 @@ router bgp {{$r.MyASN}}
     neighbor {{$n.Addr}} activate
     neighbor {{$n.Addr}} route-map {{$n.Addr}}-in in
     network {{.Prefix}}
-    {{- if or (gt (len .Communities) 0) (ne .LocalPref 0) }}
+    {{- if or (gt (len .Communities) 0) (ne .LocalPref 0) (ne .Prepend 0) }}
     neighbor {{$n.Addr}} route-map {{$n.Addr}}-out out
     {{- end}}
   exit-address-family
@@ -192,6 +214,11 @@ type localPrefPrefixes struct {
 	Prefixes        []string
 }
 
+type prependPrefixes struct {
+	Prepend  uint32
+	Prefixes []string
+}
+
 type frrConfig struct {
 	Loglevel               string
 	Hostname               string
@@ -201,6 +228,8 @@ type frrConfig struct {
 	PrefixesV6ForCommunity []communityPrefixes
 	PrefixesV4ForLocalPref []localPrefPrefixes // prefix-list to be associated to the aggregation length
 	PrefixesV6ForLocalPref []localPrefPrefixes // prefix-list to be associated to the aggregation length
+	PrefixesV4ForPrepend   []prependPrefixes   // prefix-list to be associated to as-path prepend
+	PrefixesV6ForPrepend   []prependPrefixes   // prefix-list to be associated to as-path prepend
 }
 
 // TODO: having global prefix lists works only because we advertise all the addresses
@@ -241,6 +270,7 @@ type advertisementConfig struct {
 	Prefix      string
 	Communities []string
 	LocalPref   uint32
+	Prepend     uint32
 }
 
 // routerName() defines the format of the key of the "Routers" map in the
@@ -260,15 +290,25 @@ func neighborName(peerAddr string, ASN uint32) string {
 func templateConfig(data interface{}) (string, error) {
 	i := 0
 	currentCounterName := ""
-	t, err := template.New("FRR Config Template").Funcs(
-		template.FuncMap{"counter": func(counterName string) int {
+	fm := template.FuncMap{
+		"attach": func(count, as uint32) string {
+			var i uint32
+			var Items string
+			for i = 0; i < (count); i++ {
+				Items = fmt.Sprintf("%s %d", Items, as)
+			}
+			return Items
+		},
+		"counter": func(counterName string) int {
 			if currentCounterName != counterName {
 				currentCounterName = counterName
 				i = 0
 			}
 			i++
 			return i
-		}}).Parse(configTemplate)
+		},
+	}
+	t, err := template.New("FRR Config Template").Funcs(fm).Parse(configTemplate)
 	if err != nil {
 		return "", err
 	}
