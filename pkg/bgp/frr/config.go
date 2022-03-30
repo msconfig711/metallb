@@ -82,7 +82,6 @@ ip prefix-list {{$pl.Prepend}}-v6prepend-prefixes permit {{$p}}
 {{- end}}
 {{- range $rt := .Routers }}
 {{- range $n := .Neighbors }}
-route-map {{$n.Addr}}-in deny 20
 {{/* NOTE: it's possible to have global routes only because all the neighbors
 receive the same advertisements. Once that changes, we'll need prefix lists per neighbor */}}
 {{- range $.PrefixesV4ForLocalPref }}
@@ -157,17 +156,14 @@ router bgp {{$r.MyASN}}
 {{- if eq (len .Advertisements) 0}}
   address-family ipv4 unicast
     neighbor {{$n.Addr}} activate
-    neighbor {{$n.Addr}} route-map {{$n.Addr}}-in in
   exit-address-family
   address-family ipv6 unicast
     neighbor {{$n.Addr}} activate
-    neighbor {{$n.Addr}} route-map {{$n.Addr}}-in in
   exit-address-family
 {{- end}}
 {{- range .Advertisements }}
   address-family {{.IPFamily.String}} unicast
     neighbor {{$n.Addr}} activate
-    neighbor {{$n.Addr}} route-map {{$n.Addr}}-in in
     network {{.Prefix}}
     {{- if or (gt (len .Communities) 0) (ne .LocalPref 0) (ne .Prepend 0) }}
     neighbor {{$n.Addr}} route-map {{$n.Addr}}-out out
